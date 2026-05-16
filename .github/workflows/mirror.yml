@@ -1,0 +1,21 @@
+name: Mirror GitLab Repo
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # every 5 mins
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone GitLab repo
+        run: |
+          git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/ahmed-saied/momentua source
+
+      - name: Push to GitHub
+        run: |
+          cd source
+          git remote set-url origin https://github.com/ahmed-abdelhaleem/momentua.git
+          git push --mirror origin
