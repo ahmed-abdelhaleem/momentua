@@ -62,16 +62,14 @@ jobs:
               marker = '''            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-'''
+            </intent-filter>'''
               deep_link = marker + '''
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="@string/custom_url_scheme" android:host="oauth-callback" />
-            </intent-filter>
-'''
+            </intent-filter>'''
               text = text.replace(marker, deep_link)
               manifest.write_text(text)
           PY
