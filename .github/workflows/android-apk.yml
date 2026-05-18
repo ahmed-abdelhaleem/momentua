@@ -63,18 +63,19 @@ jobs:
           manifest = Path('android/app/src/main/AndroidManifest.xml')
           text = manifest.read_text()
           if 'android:scheme="@string/custom_url_scheme"' not in text:
-              marker = """            <intent-filter>
+              marker = '''            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-"""
-              deep_link = marker + """            <intent-filter>
+'''
+              deep_link = marker + '''
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="@string/custom_url_scheme" android:host="oauth-callback" />
             </intent-filter>
-"""
+'''
               text = text.replace(marker, deep_link)
               manifest.write_text(text)
           PY
