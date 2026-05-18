@@ -29,10 +29,21 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [oauthBusy, setOauthBusy] = useState(false);
 
   useEffect(() => {
     if (!loading && session) nav({ to: "/dashboard" });
   }, [loading, session, nav]);
+
+  useEffect(() => {
+    const onNativeOAuthError = (event: Event) => {
+      const detail = event instanceof CustomEvent ? event.detail : null;
+      toast.error(typeof detail === "string" ? detail : "Google sign-in failed");
+      setOauthBusy(false);
+    };
+    window.addEventListener("momentum:native-oauth-error", onNativeOAuthError);
+    return () => window.removeEventListener("momentum:native-oauth-error", onNativeOAuthError);
+  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,8 +65,19 @@ function Login() {
   };
 
   const google = async () => {
+    setOauthBusy(true);
+    const native = await import("@/lib/native");
+    const nativeResult = await native.signInWithNativeOAuth("google");
+    if (nativeResult.started) return;
+    if (nativeResult.error) {
+      toast.error(nativeResult.error.message ?? "Google sign-in failed");
+      setOauthBusy(false);
+      return;
+    }
+
     const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/dashboard" });
     if (r.error) toast.error(r.error.message ?? "Google sign-in failed");
+    if (!r.redirected) setOauthBusy(false);
   };
 
   return (
@@ -85,7 +107,9 @@ function Login() {
             <div className="h-px flex-1 bg-border" /> or <div className="h-px flex-1 bg-border" />
           </div>
 
-          <button onClick={google} className="w-full rounded-lg border border-border bg-card py-3 text-sm font-medium hover:bg-accent">Continue with Google</button>
+          <button onClick={google} disabled={oauthBusy} className="w-full rounded-lg border border-border bg-card py-3 text-sm font-medium hover:bg-accent disabled:opacity-50">
+            {oauthBusy ? "Opening Google..." : "Continue with Google"}
+          </button>
 
           <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="mt-6 w-full text-center text-xs text-muted-foreground hover:text-foreground">
             {mode === "signin" ? "Don't have an account? Sign up" : "Already have an account? Sign in"}

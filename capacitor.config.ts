@@ -11,17 +11,11 @@ const config: CapacitorConfig = {
     url: "https://momentua.lovable.app",
     cleartext: false,
     androidScheme: "https",
-    // Keep OAuth flows inside the WebView so the redirect lands back in the app.
-    // Without this, Capacitor punts these hosts to the system browser and the
-    // post-login redirect never returns to the native shell.
+    // App content stays in the WebView. Google OAuth uses native Custom Tabs
+    // from src/lib/native.ts so it complies with Google's secure browser policy.
     allowNavigation: [
       "momentua.lovable.app",
       "*.lovable.app",
-      "oauth.lovable.app",
-      "accounts.google.com",
-      "*.google.com",
-      "*.googleusercontent.com",
-      "appleid.apple.com",
       "*.supabase.co",
       "iianmvufltlxajdxxyiy.supabase.co",
     ],
