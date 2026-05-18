@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,700;9..40,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* MOMENTUM — premium dark with warm amber/gold. Designed to compete with social media for attention. */
+
+@theme inline {
+  --font-display: "DM Sans", "Instrument Sans", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-stake: var(--stake);
+  --color-stake-foreground: var(--stake-foreground);
+  --color-burn: var(--burn);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-amber-soft: var(--amber-soft);
+  --color-success: var(--success);
+
+  --color-domain-physical: var(--domain-physical);
+  --color-domain-mental: var(--domain-mental);
+  --color-domain-social: var(--domain-social);
+  --color-domain-self: var(--domain-self);
+  --color-domain-streak: var(--domain-streak);
+}
+
+:root {
+  /* near-black with warm undertone (#0F0E0C) */
+  --background: oklch(0.13 0.008 70);
+  --foreground: oklch(0.94 0.018 80);
+  --paper: oklch(0.94 0.018 80);
+  --ink: oklch(0.13 0.008 70);
+
+  /* Surface cards (#1C1A16) */
+  --card: oklch(0.19 0.011 70);
+  --card-foreground: oklch(0.94 0.018 80);
+  --popover: oklch(0.19 0.011 70);
+  --popover-foreground: oklch(0.94 0.018 80);
+
+  /* Warm gold (#C9962A) — points, streaks, rewards */
+  --primary: oklch(0.72 0.14 75);
+  --primary-foreground: oklch(0.13 0.008 70);
+
+  /* Soft amber (#E8C882) — active states, highlights */
+  --amber-soft: oklch(0.85 0.10 80);
+
+  --secondary: oklch(0.24 0.014 70);
+  --secondary-foreground: oklch(0.94 0.018 80);
+
+  --muted: oklch(0.24 0.014 70);
+  --muted-foreground: oklch(0.62 0.022 80);
+
+  --accent: oklch(0.27 0.018 75);
+  --accent-foreground: oklch(0.94 0.018 80);
+
+  /* Muted green success (#4A8C3F) */
+  --success: oklch(0.60 0.13 145);
+
+  --destructive: oklch(0.62 0.20 30);
+  --destructive-foreground: oklch(0.94 0.018 80);
+  --burn: oklch(0.62 0.20 30);
+
+  --border: oklch(0.27 0.014 70);
+  --input: oklch(0.24 0.014 70);
+  --ring: oklch(0.72 0.14 75);
+
+  --stake: oklch(0.72 0.14 75);
+  --stake-foreground: oklch(0.13 0.008 70);
+
+  --domain-physical: oklch(0.78 0.15 50);
+  --domain-mental: oklch(0.74 0.14 250);
+  --domain-social: oklch(0.76 0.16 330);
+  --domain-self: oklch(0.80 0.12 180);
+  --domain-streak: oklch(0.72 0.14 75);
+
+  --gradient-momentum: linear-gradient(135deg, oklch(0.72 0.14 75) 0%, oklch(0.85 0.10 80) 100%);
+  --gradient-burn: linear-gradient(135deg, oklch(0.62 0.20 30) 0%, oklch(0.65 0.18 50) 100%);
+  --gradient-gold-radial: radial-gradient(circle at center, oklch(0.85 0.14 80 / 0.55) 0%, oklch(0.72 0.14 75 / 0) 70%);
+  --shadow-stake: 0 18px 60px -20px oklch(0.72 0.14 75 / 0.55);
+  --shadow-card: 0 8px 30px -12px oklch(0 0 0 / 0.6);
+  --shadow-gold-glow: 0 0 40px -8px oklch(0.85 0.14 80 / 0.5);
+}
+
+.dark {
+  --background: oklch(0.13 0.008 70);
+  --foreground: oklch(0.94 0.018 80);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.025em; font-weight: 700; }
+
+  ::selection { background: var(--color-primary); color: var(--color-primary-foreground); }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .text-balance { text-wrap: balance; }
+  .gradient-momentum { background: var(--gradient-momentum); }
+  .gradient-burn { background: var(--gradient-burn); }
+  .shadow-stake { box-shadow: var(--shadow-stake); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-gold-glow { box-shadow: var(--shadow-gold-glow); }
+  .ring-momentum { box-shadow: 0 0 0 1px oklch(0.72 0.14 75 / 0.4), 0 0 40px -10px oklch(0.85 0.14 80 / 0.6); }
+
+  /* === MOTION === */
+  /* Slow breathing glow — used on points counter, always on */
+  @keyframes breathe-glow {
+    0%, 100% { box-shadow: 0 0 30px -8px oklch(0.85 0.14 80 / 0.35); }
+    50%      { box-shadow: 0 0 60px -4px oklch(0.85 0.14 80 / 0.65); }
+  }
+  .animate-breathe { animation: breathe-glow 4.5s ease-in-out infinite; }
+
+  /* Streak number breathe on increment */
+  @keyframes streak-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+  .animate-streak-breathe { animation: streak-breathe 700ms ease-out 1; }
+
+  /* Lock-in pulse: scale + gold radial pulse on action complete */
+  @keyframes lock-in {
+    0%   { transform: scale(1); box-shadow: 0 0 0 0 oklch(0.85 0.14 80 / 0.7); }
+    50%  { transform: scale(1.04); box-shadow: 0 0 0 18px oklch(0.85 0.14 80 / 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 oklch(0.85 0.14 80 / 0); }
+  }
+  .animate-lock-in { animation: lock-in 800ms cubic-bezier(0.2, 0.7, 0.2, 1) 1; }
+
+  /* Permanent shimmer on incomplete cards — implies "waiting to be filled" */
+  @keyframes shimmer-sweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+  .shimmer-overlay {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none; border-radius: inherit;
+  }
+  .shimmer-overlay::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 40%;
+    background: linear-gradient(90deg, transparent, oklch(0.85 0.14 80 / 0.07), transparent);
+    animation: shimmer-sweep 3.6s ease-in-out infinite;
+  }
+
+  /* Flame flicker — CSS-only fire */
+  @keyframes flame-flicker {
+    0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); opacity: 0.95; }
+    25%      { transform: translateY(-2%) scaleY(1.06) scaleX(0.96); opacity: 1; }
+    50%      { transform: translateY(0) scaleY(0.96) scaleX(1.04); opacity: 0.92; }
+    75%      { transform: translateY(-1%) scaleY(1.04) scaleX(0.98); opacity: 1; }
+  }
+  .animate-flame { animation: flame-flicker 1.6s ease-in-out infinite; transform-origin: bottom center; }
+
+  /* Slot-machine roll-up for points counter */
+  @keyframes count-roll { from { transform: translateY(40%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .animate-count-roll { animation: count-roll 600ms cubic-bezier(0.2, 0.8, 0.2, 1) 1; }
+
+  /* Slow cursor blink for brain dump — calmer than system default */
+  @keyframes slow-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  .cursor-slow::after { content: "|"; margin-left: 2px; animation: slow-blink 1.4s steps(1) infinite; color: var(--color-primary); }
+
+  /* Slide-up for live feed items */
+  @keyframes feed-rise { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .animate-feed-rise { animation: feed-rise 400ms ease-out 1; }
+}
+
+/* fonts imported at top of file */
+

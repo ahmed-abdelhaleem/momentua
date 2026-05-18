@@ -1,0 +1,2 @@
+-- Combined initial schema for Stakes & Streaks
+-- See bundled migration files for source

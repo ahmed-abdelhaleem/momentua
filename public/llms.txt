@@ -1,0 +1,15 @@
+# MOMENTUM
+
+> Stake your behavior. Recover your money. An AI-powered behavioral consistency engine where real money rides on what you actually do — and ACE intervenes before decay turns into disengagement.
+
+MOMENTUM is a personal accountability app for people who have tried every productivity tool and watched novelty fade. Users put a monthly stake (500–5,000 SEK) on the line, log behavior across five domains (physical, mental, social, self-regulation, nourishment), and recover money through consistent action. Whatever isn't recovered goes to a chosen charity. ACE — the consistency engine — watches engagement patterns and intervenes early.
+
+## Pages
+
+- [Home](/): What MOMENTUM is, how stakes work, and the role of ACE.
+- [Sign in](/login): Email/password and Google sign-in for new and returning users.
+
+## Optional
+
+- [Sitemap](/sitemap.xml)
+- [Robots](/robots.txt)

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stakes-and-streaks.lovable.app/sitemap.xml
