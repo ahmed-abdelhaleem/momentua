@@ -1,0 +1,84 @@
+name: Android APK (debug)
+
+# Builds a signed-debug APK on every push to main and on manual dispatch.
+# Download from the workflow run's "Artifacts" section.
+#
+# Required GitHub secret:
+#   GOOGLE_SERVICES_JSON_BASE64 — base64 of your firebase google-services.json
+#     macOS:  base64 -i google-services.json | pbcopy
+#     Linux:  base64 -w0 google-services.json
+#     Windows: certutil -encode google-services.json out.txt
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+    
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+    
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install deps
+        run: bun install --frozen-lockfile
+
+      - name: Build web (used as Capacitor webDir fallback)
+        run: bun run build || echo "build optional — Capacitor uses server.url"
+
+      - name: Create dist if missing
+        run: mkdir -p dist && [ -f dist/index.html ] || echo "<!doctype html><title>Momentum</title>" > dist/index.html
+
+      - name: Add Android platform
+        run: bunx cap add android || echo "android already added"
+
+      - name: Sync Capacitor
+        run: bunx cap sync android
+
+      - name: Inject google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          if [ -z "$GOOGLE_SERVICES_JSON_BASE64" ]; then
+            echo "::warning::GOOGLE_SERVICES_JSON_BASE64 not set — push notifications will not work in this APK."
+          else
+            echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 -d > android/app/google-services.json
+            echo "google-services.json written ($(wc -c < android/app/google-services.json) bytes)"
+          fi
+
+      - name: Enable Google services plugin (idempotent)
+        run: |
+          # App-level: apply plugin
+          if ! grep -q "com.google.gms.google-services" android/app/build.gradle; then
+            echo "apply plugin: 'com.google.gms.google-services'" >> android/app/build.gradle
+          fi
+          # Project-level: classpath
+          if ! grep -q "com.google.gms:google-services" android/build.gradle; then
+            sed -i "/dependencies {/a \        classpath 'com.google.gms:google-services:4.4.2'" android/build.gradle
+          fi
+
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: momentum-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
